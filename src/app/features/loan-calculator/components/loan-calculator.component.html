@@ -1,0 +1,87 @@
+<div class="container">
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div class="full-width">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ labels.monthlyIncome }}</mat-label>
+        <input matInput formControlName="monthlyIncome">
+        <mat-hint>{{ labels.hintInCents }}</mat-hint>
+      </mat-form-field>
+
+      <mat-error *ngIf="formGroup.get('monthlyIncome')?.getError('error')">
+        {{ formGroup.get('monthlyIncome')?.getError('error') }}
+      </mat-error>
+    </div>
+
+    <div class="full-width">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ labels.requestedAmount }}</mat-label>
+        <input matInput formControlName="requestedAmount">
+        <mat-hint>{{ labels.hintInCents }}</mat-hint>
+      </mat-form-field>
+
+      <mat-error *ngIf="formGroup.get('requestedAmount')?.getError('error')">
+        {{ formGroup.get('requestedAmount')?.getError('error') }}
+      </mat-error>
+    </div>
+
+    <div class="full-width">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ labels.termOfLoan }}</mat-label>
+        <input matInput formControlName="loanTerm">
+        <mat-hint>{{ labels.hintInCents }}</mat-hint>
+      </mat-form-field>
+
+      <mat-error *ngIf="formGroup.get('loanTerm')?.getError('error')">
+        {{ formGroup.get('loanTerm')?.getError('error') }}
+      </mat-error>
+    </div>
+
+    <div class="full-width">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ labels.children }}</mat-label>
+        <mat-select formControlName="children">
+          <mat-option
+            *ngFor="let option of (childrenOptions | keyvalue)"
+            [value]="option.key"
+          >
+            {{ option.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-error *ngIf="formGroup.get('children')?.getError('error')">
+        {{ formGroup.get('children')?.getError('error') }}
+      </mat-error>
+    </div>
+
+    <div class="full-width">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ labels.coapplicant }}</mat-label>
+        <mat-select formControlName="coapplicant">
+          <mat-option
+            *ngFor="let option of (coApplicantOptions | keyvalue)"
+            [value]="option.key"
+          >
+            {{ option.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-error *ngIf="formGroup.get('coapplicant')?.getError('error')">
+        {{ formGroup.get('coapplicant')?.getError('error') }}
+      </mat-error>
+    </div>
+
+    <button mat-stroked-button color="primary" type="submit" [disabled]="formGroup.invalid">{{ labels.submitButton }}</button>
+
+    <mat-error *ngIf="(error$ | async)" class="mt">
+      {{ (error$ | async) }}
+    </mat-error>
+
+    <div *ngIf="(response$ | async) as response" class="mt">
+      <p>{{ labels.loanAmount }}: {{ (response.loanAmount / decimalPower) | number:'1.3-3' }}</p>
+
+      <p>{{ labels.interestRate }}: {{ (response.interestRate / decimalPower) | number:'1.3-3' }}</p>
+    </div>
+  </form>
+</div>
